@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libfacedetection.net", "src\libfacedetection.net\libfacedetection.net.csproj", "{83076198-9DDF-47CF-82E6-E6840DC71945}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libfacedetection.net.Test", "test\libfacedetection.net.Test\libfacedetection.net.Test.csproj", "{8B77B649-B408-4750-A04E-A6F3CE4BDE14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {309F2A57-1EB0-4886-94B5-A90D2B5749E0}
+	EndGlobalSection
+EndGlobal
