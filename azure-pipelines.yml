@@ -15,17 +15,21 @@ jobs:
           rid: 'windows-x64'
           imageName: 'windows-2019'
 
-pool:
-  vmImage: $(imageName)
+    pool:
+      vmImage: $(imageName)
 
-variables:
-  buildConfiguration: 'Release'
+    variables:
+      buildConfiguration: 'Release'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    steps:
+      - task: CMake@1
+        inputs:
+          workingDirectory: 'src'
+          cmakeArgs: '.'
+      - task: VSBuild@1        
+        displayName: 'Build Windows native assets'
+        condition: eq(variables.rid, 'windows-x64')
+        inputs:
+          solution: 'src/libfacedetection.net.sln'
+          platform: 'x64'
+          configuration: '$(buildConfiguration)'
