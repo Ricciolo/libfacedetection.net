@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace LibFaceDetection
 {
@@ -12,6 +13,9 @@ namespace LibFaceDetection
 
         public CnnFaceDetector()
         {
+            if (RuntimeInformation.OSArchitecture != Architecture.X64)
+                throw new InvalidOperationException("Only x64 process are supported right now");
+
             _instance = Interop.Ctor();
         }
 
