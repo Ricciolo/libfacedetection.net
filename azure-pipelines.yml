@@ -45,6 +45,7 @@ jobs:
             make
       
       - task: CopyFiles@2
+        displayName: 'Copy native binary'
         inputs:
           Contents: |
             **\$(libname).dll
