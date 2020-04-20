@@ -2,12 +2,12 @@ trigger:
 - master
 
 jobs:
-  - job: 'BuildPackage'
+  - job: 'BuildLib'
     strategy:
       matrix:
-        # linux:
-        #   imageName: 'ubuntu-18.04'
-        #   rid: 'linux-x64'
+        linux:
+          imageName: 'ubuntu-18.04'
+          rid: 'linux-x64'
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
@@ -20,16 +20,42 @@ jobs:
 
     variables:
       buildConfiguration: 'Release'
+      libname: 'libfacedetection.net'
 
     steps:
       - task: CMake@1
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '.'
-      - task: VSBuild@1        
+      - task: VSBuild@1
         displayName: 'Build Windows native assets'
         condition: eq(variables.rid, 'windows-x64')
         inputs:
           solution: 'src/libfacedetection.net.sln'
           platform: 'x64'
           configuration: '$(buildConfiguration)'
+      
+      - task: Bash@3
+        displayName: 'Build Linux native assets'
+        condition: eq(variables.rid, 'linux-x64')        
+        inputs:
+          targetType: 'inline'
+          workingDirectory: src
+          script: |
+            make
+      
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: 'src'
+          Contents: '
+          **/$(libname).dll
+          **/$(libname).so'
+          TargetFolder: 'artifacts'
+          CleanTargetFolder: true
+          flattenFolders: true
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: 'artifacts'
+          ArtifactName: 'artifacts-$(rid)'
+          publishLocation: 'Container'
