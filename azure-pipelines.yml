@@ -1,0 +1,31 @@
+trigger:
+- master
+
+jobs:
+  - job: 'BuildPackage'
+    strategy:
+      matrix:
+        # linux:
+        #   imageName: 'ubuntu-18.04'
+        #   rid: 'linux-x64'
+        # mac:
+        #   imageName: 'macos-10.14'
+        #   rid: 'osx-x64'
+        windows:
+          rid: 'windows-x64'
+          imageName: 'windows-2019'
+
+pool:
+  vmImage: $(imageName)
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
