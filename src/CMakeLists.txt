@@ -8,8 +8,6 @@ option(ENABLE_NEON "whether use neon, if use arm please set it on" OFF)
 
 project ("libfacedetection.net")
 
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "C:/My/Sources/Projects/libfacedetection.net/src/modules/libfacedetection/")
-
 # Include sub-projects.
 add_subdirectory ("native")
 
