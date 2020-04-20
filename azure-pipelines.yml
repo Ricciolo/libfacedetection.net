@@ -50,6 +50,7 @@ jobs:
           Contents: |
             **\$(libname).dll
             **\$(libname).so
+            **\$(libname)
           TargetFolder: 'artifacts'
           CleanTargetFolder: true
           flattenFolders: true
