@@ -48,8 +48,7 @@ jobs:
         inputs:
           Contents: |
             **\$(libname).dll
-            **\$(libname).so
-            **\$(libname)
+            **/$(libname).so
           TargetFolder: 'artifacts'
           CleanTargetFolder: true
           flattenFolders: true
