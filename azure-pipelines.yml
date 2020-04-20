@@ -2,7 +2,7 @@ trigger:
 - master
 
 jobs:
-  - job: 'BuildPackage'
+  - job: 'BuildLib'
     strategy:
       matrix:
         linux:
@@ -20,6 +20,7 @@ jobs:
 
     variables:
       buildConfiguration: 'Release'
+      libname: 'libfacedetection.net'
 
     steps:
       - task: CMake@1
@@ -42,6 +43,16 @@ jobs:
           workingDirectory: src
           script: |
             make
+      
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: 'src'
+          Contents: '
+          **/$(libname).dll
+          **/$(libname).so'
+          TargetFolder: 'artifacts'
+          CleanTargetFolder: true
+          flattenFolders: true
 
       - task: PublishBuildArtifacts@1
         inputs:
