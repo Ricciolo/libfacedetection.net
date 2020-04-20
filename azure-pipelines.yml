@@ -1,8 +1,11 @@
 trigger:
 - master
 
+variables:
+  versionprefix: 0.1.0
+
 jobs:
-  - job: 'BuildLib'
+  - job: 'BuildLib'  
     strategy:
       matrix:
         linux:
@@ -59,3 +62,27 @@ jobs:
           PathtoPublish: 'artifacts'
           ArtifactName: 'artifacts-$(rid)'
           publishLocation: 'Container'
+
+  - job: 'BuildPackage'
+    dependsOn: 'BuildLib'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        downloadPath: 'src/libfacedetection.net/native'
+        artifactName: 'artifacts-windows-x64'
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        downloadPath: 'src/libfacedetection.net/native'
+        artifactName: 'artifacts-linux-x64'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        arguments: '-c $(buildConfiguration)'
+        projects: 'libfacedetection.net.csproj'
+        workingDirectory: 'src/libfacedetection.net'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'pack'
+        arguments: '-c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber)'
+        projects: 'libfacedetection.net.csproj'
+        workingDirectory: 'src/libfacedetection.net'
