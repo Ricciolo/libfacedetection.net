@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "libfacedetection.net.Test": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

@@ -5,22 +5,22 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libfacedetection.net", "src\libfacedetection.net\libfacedetection.net.csproj", "{83076198-9DDF-47CF-82E6-E6840DC71945}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libfacedetection.net.Test", "test\libfacedetection.net.Test\libfacedetection.net.Test.csproj", "{8B77B649-B408-4750-A04E-A6F3CE4BDE14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libfacedetection.net.Test", "test\libfacedetection.net.Test\libfacedetection.net.Test.csproj", "{8B77B649-B408-4750-A04E-A6F3CE4BDE14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|x64.Build.0 = Debug|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|x64.ActiveCfg = Release|Any CPU
+		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|x64.Build.0 = Release|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|x64.ActiveCfg = Debug|x64
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|x64.Build.0 = Debug|x64
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|x64.ActiveCfg = Release|x64
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
