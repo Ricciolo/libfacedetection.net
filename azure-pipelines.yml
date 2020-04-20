@@ -47,9 +47,9 @@ jobs:
       - task: CopyFiles@2
         inputs:
           SourceFolder: 'src'
-          Contents: '
-          **/$(libname).dll
-          **/$(libname).so'
+          Contents: |
+            **\$(libname).dll
+            **\$(libname).so
           TargetFolder: 'artifacts'
           CleanTargetFolder: true
           flattenFolders: true
