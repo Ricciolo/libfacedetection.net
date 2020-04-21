@@ -3,6 +3,8 @@ trigger:
 
 variables:
   versionprefix: 0.1.0
+  buildConfiguration: 'Release'
+  libname: 'libfacedetection.net'
 
 jobs:
   - job: 'BuildLib'  
@@ -20,10 +22,6 @@ jobs:
 
     pool:
       vmImage: $(imageName)
-
-    variables:
-      buildConfiguration: 'Release'
-      libname: 'libfacedetection.net'
 
     steps:
       - task: CMake@1
@@ -98,3 +96,23 @@ jobs:
         arguments: '-c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
         projects: 'libfacedetection.net.sln'
         workingDirectory: 'src/libfacedetection.net'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'package'
+        publishLocation: 'Container'
+
+  - job: 'PublishToNuGet'
+    dependsOn: 'BuildPackage'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        downloadPath: 'artifacts'
+        artifactName: 'package'
+    - task: NuGetCommand@2
+      displayName: 'Publish to nuget.org'
+      inputs:
+        command: push
+        packagesToPush: 'artifacts/*.nupkg;!artifacts/*.symbols.nupkg'
+        nuGetFeedType: external
+        publishFeedCredentials: 'NuGet'
