@@ -1,8 +1,13 @@
 trigger:
 - master
 
+variables:
+  versionprefix: 0.1.0
+  buildConfiguration: 'Release'
+  libname: 'libfacedetection.net'
+
 jobs:
-  - job: 'BuildLib'
+  - job: 'BuildLib'  
     strategy:
       matrix:
         linux:
@@ -17,10 +22,6 @@ jobs:
 
     pool:
       vmImage: $(imageName)
-
-    variables:
-      buildConfiguration: 'Release'
-      libname: 'libfacedetection.net'
 
     steps:
       - task: CMake@1
@@ -45,6 +46,7 @@ jobs:
             make
       
       - task: CopyFiles@2
+        displayName: 'Copy native binary'
         inputs:
           Contents: |
             **\$(libname).dll
@@ -58,3 +60,59 @@ jobs:
           PathtoPublish: 'artifacts'
           ArtifactName: 'artifacts-$(rid)'
           publishLocation: 'Container'
+
+  - job: 'BuildPackage'
+    dependsOn: 'BuildLib'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download windows-x64 artifact'
+      inputs:
+        downloadType: 'specific'
+        itemPattern: '**/$(libname).so'
+        downloadPath: 'src/libfacedetection.net/native'
+        artifactName: 'artifacts-windows-x64'
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download linux-x64 artifact'
+      inputs:
+        downloadType: 'specific'
+        itemPattern: '**/$(libname).so'
+        downloadPath: 'src/libfacedetection.net/native'
+        artifactName: 'artifacts-linux-x64'
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core 3.1.x'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build libfacedetection.net'
+      inputs:
+        command: 'build'
+        arguments: '-c $(buildConfiguration)'
+        projects: 'libfacedetection.net.sln'
+    - task: DotNetCoreCLI@2
+      displayName: 'Package libfacedetection.net'
+      inputs:
+        command: 'pack'
+        arguments: '-c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
+        projects: 'libfacedetection.net.sln'
+        workingDirectory: 'src/libfacedetection.net'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'package'
+        publishLocation: 'Container'
+
+  - job: 'PublishToNuGet'
+    dependsOn: 'BuildPackage'
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        downloadPath: 'artifacts'
+        artifactName: 'package'
+    - task: NuGetCommand@2
+      displayName: 'Publish to nuget.org'
+      inputs:
+        command: push
+        packagesToPush: 'artifacts/package/*.nupkg;!artifacts/package/*.symbols.nupkg'
+        nuGetFeedType: external
+        publishFeedCredentials: 'NuGet'
