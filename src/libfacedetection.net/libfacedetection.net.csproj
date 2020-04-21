@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>LibFaceDetection</RootNamespace>
-    <AssemblyName>LibFaceDetection</AssemblyName>
+    <AssemblyName>libfacedetection.net</AssemblyName>
     <PackageDescription>Windows, Mac, and Linux</PackageDescription>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NativeOutputDir>..\native\</NativeOutputDir>
