@@ -14,7 +14,9 @@ namespace LibFaceDetection
         public CnnFaceDetector()
         {
             if (RuntimeInformation.OSArchitecture != Architecture.X64)
-                throw new InvalidOperationException("Only x64 process are supported right now");
+                throw new InvalidOperationException("Only x64 processes are supported right now");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                throw new InvalidOperationException("Only Windows and Linux are supported right now");
 
             _instance = Interop.Ctor();
         }

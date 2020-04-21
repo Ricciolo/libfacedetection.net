@@ -7,6 +7,7 @@
     <PackageDescription>Windows, Mac, and Linux</PackageDescription>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NativeOutputDir>..\native\</NativeOutputDir>
+    <NativeOutputDir Condition="'$(OS)' == 'Windows_NT' and '$(Configuration)'=='Debug' ">..\out\build\x64-Debug\native\</NativeOutputDir>
     <NativeLibName>libfacedetection.net</NativeLibName>
   </PropertyGroup>
 
@@ -15,11 +16,13 @@
       <Pack>true</Pack>
       <Link>%(Filename)%(Extension)</Link>
       <PackagePath>runtimes/win-x64/native/%(Filename)%(Extension)</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="$(NativeOutputDir)$(NativeLibName).so" Condition="Exists('$(NativeOutputDir)$(NativeLibName).so')">
       <Pack>true</Pack>
       <Link>%(Filename)%(Extension)</Link>
       <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
