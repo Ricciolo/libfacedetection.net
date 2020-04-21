@@ -67,22 +67,34 @@ jobs:
     dependsOn: 'BuildLib'
     steps:
     - task: DownloadBuildArtifacts@0
+      displayName: 'Download windows-x64 artifact'
       inputs:
+        downloadType: 'specific'
+        itemPattern: '**/$(libname).so'
         downloadPath: 'src/libfacedetection.net/native'
         artifactName: 'artifacts-windows-x64'
     - task: DownloadBuildArtifacts@0
+      displayName: 'Download linux-x64 artifact'
       inputs:
+        downloadType: 'specific'
+        itemPattern: '**/$(libname).so'
         downloadPath: 'src/libfacedetection.net/native'
         artifactName: 'artifacts-linux-x64'
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core 3.1.x'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
     - task: DotNetCoreCLI@2
+      displayName: 'Build libfacedetection.net'
       inputs:
         command: 'build'
         arguments: '-c $(buildConfiguration)'
-        projects: 'libfacedetection.net.csproj'
-        workingDirectory: 'src/libfacedetection.net'
+        projects: 'libfacedetection.net.sln'
     - task: DotNetCoreCLI@2
+      displayName: 'Package libfacedetection.net'
       inputs:
         command: 'pack'
-        arguments: '-c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber)'
-        projects: 'libfacedetection.net.csproj'
+        arguments: '-c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
+        projects: 'libfacedetection.net.sln'
         workingDirectory: 'src/libfacedetection.net'
