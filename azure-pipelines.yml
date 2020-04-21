@@ -69,14 +69,14 @@ jobs:
       inputs:
         downloadType: 'specific'
         itemPattern: '**/$(libname).so'
-        downloadPath: 'src/libfacedetection.net/native'
+        downloadPath: 'src/native'
         artifactName: 'artifacts-windows-x64'
     - task: DownloadBuildArtifacts@0
       displayName: 'Download linux-x64 artifact'
       inputs:
         downloadType: 'specific'
         itemPattern: '**/$(libname).so'
-        downloadPath: 'src/libfacedetection.net/native'
+        downloadPath: 'src/native'
         artifactName: 'artifacts-linux-x64'
     - task: UseDotNet@2
       displayName: 'Use .NET Core 3.1.x'
