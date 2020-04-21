@@ -1,3 +1,4 @@
+name: $(BuildID)
 trigger:
 - master
 
@@ -69,14 +70,14 @@ jobs:
       inputs:
         downloadType: 'specific'
         itemPattern: '**/$(libname).so'
-        downloadPath: 'src/libfacedetection.net/native'
+        downloadPath: 'src/native'
         artifactName: 'artifacts-windows-x64'
     - task: DownloadBuildArtifacts@0
       displayName: 'Download linux-x64 artifact'
       inputs:
         downloadType: 'specific'
         itemPattern: '**/$(libname).so'
-        downloadPath: 'src/libfacedetection.net/native'
+        downloadPath: 'src/native'
         artifactName: 'artifacts-linux-x64'
     - task: UseDotNet@2
       displayName: 'Use .NET Core 3.1.x'
@@ -87,14 +88,11 @@ jobs:
       displayName: 'Build libfacedetection.net'
       inputs:
         command: 'build'
-        arguments: '-c $(buildConfiguration)'
         projects: 'libfacedetection.net.sln'
-    - task: DotNetCoreCLI@2
+    - task: CmdLine@2
       displayName: 'Package libfacedetection.net'
       inputs:
-        command: 'pack'
-        arguments: '-c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
-        projects: 'libfacedetection.net.sln'
+        script: 'dotnet pack -c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
         workingDirectory: 'src/libfacedetection.net'
     - task: PublishBuildArtifacts@1
       inputs:
