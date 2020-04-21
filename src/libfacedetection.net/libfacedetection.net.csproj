@@ -9,6 +9,11 @@
     <NativeOutputDir>..\native\</NativeOutputDir>
     <NativeOutputDir Condition="'$(OS)' == 'Windows_NT' and '$(Configuration)'=='Debug' ">..\out\build\x64-Debug\native\</NativeOutputDir>
     <NativeLibName>libfacedetection.net</NativeLibName>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Ricciolo/libfacedetection.net</RepositoryUrl>
+    <PackageTags>face detection recognition</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/Ricciolo/libfacedetection.net</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,10 +29,18 @@
       <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="logo.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
