@@ -69,16 +69,22 @@ jobs:
       displayName: 'Download windows-x64 artifact'
       inputs:
         downloadType: 'specific'
-        itemPattern: '**/$(libname).so'
-        downloadPath: 'src/native'
+        itemPattern: '**/$(libname).dll'
+        downloadPath: 'artifacts'
         artifactName: 'artifacts-windows-x64'
     - task: DownloadBuildArtifacts@0
       displayName: 'Download linux-x64 artifact'
       inputs:
         downloadType: 'specific'
         itemPattern: '**/$(libname).so'
-        downloadPath: 'src/native'
+        downloadPath: 'artifacts'
         artifactName: 'artifacts-linux-x64'
+    - task: CopyFiles@2
+      displayName: 'Copy native binary to src/native'
+      inputs:
+        Contents: 'artifacts/**/*'
+        TargetFolder: src/native
+        flattenFolders: true        
     - task: UseDotNet@2
       displayName: 'Use .NET Core 3.1.x'
       inputs:
