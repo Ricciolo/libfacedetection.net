@@ -1,6 +1,6 @@
 #name: $(BuildID)
 trigger:
-- master
+#- master
 
 variables:
   versionprefix: 0.1.0
