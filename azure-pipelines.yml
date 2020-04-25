@@ -95,16 +95,23 @@ jobs:
       inputs:
         command: 'build'
         projects: 'libfacedetection.net.sln'
-    - task: CmdLine@2
-      displayName: 'Package libfacedetection.net'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Test library'
       inputs:
-        script: 'dotnet pack -c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
-        workingDirectory: 'src/libfacedetection.net'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'package'
-        publishLocation: 'Container'
+        command: 'test'
+        projects: 'libfacedetection.net.sln'
+
+    # - task: CmdLine@2
+    #   displayName: 'Package libfacedetection.net'
+    #   inputs:
+    #     script: 'dotnet pack -c $(buildConfiguration) /p:VersionPrefix=$(versionprefix) /p:VersionSuffix=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
+    #     workingDirectory: 'src/libfacedetection.net'
+    # - task: PublishBuildArtifacts@1
+    #   inputs:
+    #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    #     ArtifactName: 'package'
+    #     publishLocation: 'Container'
 
   # - job: 'PublishToNuGet'
   #   dependsOn: 'BuildPackage'
