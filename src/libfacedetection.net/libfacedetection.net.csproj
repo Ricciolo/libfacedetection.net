@@ -8,7 +8,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NativeOutputDir>..\native\</NativeOutputDir>
     <NativeOutputDir Condition="'$(OS)' == 'Windows_NT' and '$(Configuration)'=='Debug' ">..\out\build\x64-Debug\native\</NativeOutputDir>
-    <NativeLibName>libfacedetection.net</NativeLibName>
+    <NativeLibName>libfacedetection</NativeLibName>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/Ricciolo/libfacedetection.net</RepositoryUrl>
     <PackageTags>face detection recognition</PackageTags>

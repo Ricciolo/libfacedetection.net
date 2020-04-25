@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.8)
 option(ENABLE_AVX2 "use avx2" ON)
 option(ENABLE_NEON "whether use neon, if use arm please set it on" OFF)
 
-project ("libfacedetection.net")
+project ("libfacedetection")
 
 # Include sub-projects.
 add_subdirectory ("native")
