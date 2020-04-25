@@ -33,7 +33,7 @@ jobs:
         displayName: 'Build Windows native assets'
         condition: eq(variables.rid, 'windows-x64')
         inputs:
-          solution: 'src/libfacedetection.net.sln'
+          solution: 'src/libfacedetection.sln'
           platform: 'x64'
           configuration: '$(buildConfiguration)'
       
