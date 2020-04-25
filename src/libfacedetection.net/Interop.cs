@@ -7,7 +7,7 @@ namespace LibFaceDetection
 {
     internal class Interop
     {
-        private const string DllName = "libfacedetection.net";
+        private const string DllName = "libfacedetection";
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int DetectCallback(in FaceDetected faceDetected);

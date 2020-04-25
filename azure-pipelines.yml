@@ -113,7 +113,7 @@ jobs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
       - task: DotNetCoreCLI@2
-        displayName: 'Test library'
+        displayName: 'Test libfacedetection.net'
         inputs:
           command: 'test'
           projects: 'libfacedetection.net.sln'
