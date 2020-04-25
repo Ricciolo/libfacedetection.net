@@ -53,7 +53,7 @@ namespace LibFaceDetection.Test
             using var detector = new CnnFaceDetector();
 
             var stopwatch = Stopwatch.StartNew();
-            for (int x = 0; x < 100; x++)
+            for (int x = 0; x < 10; x++)
             {
                 IReadOnlyList<CnnFaceDetected> result = detector.Detect(bitmap);
             }
