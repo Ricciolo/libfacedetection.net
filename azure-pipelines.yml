@@ -111,13 +111,15 @@ jobs:
         inputs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
-          configuration: '$(buildConfiguration)'
+          #configuration: '$(buildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'
       - task: DotNetCoreCLI@2
         displayName: 'Test libfacedetection.net'
         inputs:
           command: 'test'
           projects: 'libfacedetection.net.sln'
-          configuration: '$(buildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'
+          #configuration: '$(buildConfiguration)'
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
