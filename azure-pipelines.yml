@@ -1,5 +1,5 @@
 #name: $(BuildID)
-trigger:
+#trigger:
 #- master
 
 variables:
@@ -106,17 +106,17 @@ jobs:
         ArtifactName: 'package'
         publishLocation: 'Container'
 
-  - job: 'PublishToNuGet'
-    dependsOn: 'BuildPackage'
-    steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        downloadPath: 'artifacts'
-        artifactName: 'package'
-    - task: NuGetCommand@2
-      displayName: 'Publish to nuget.org'
-      inputs:
-        command: push
-        packagesToPush: 'artifacts/package/*.nupkg;!artifacts/package/*.symbols.nupkg'
-        nuGetFeedType: external
-        publishFeedCredentials: 'NuGet'
+  # - job: 'PublishToNuGet'
+  #   dependsOn: 'BuildPackage'
+  #   steps:
+  #   - task: DownloadBuildArtifacts@0
+  #     inputs:
+  #       downloadPath: 'artifacts'
+  #       artifactName: 'package'
+  #   - task: NuGetCommand@2
+  #     displayName: 'Publish to nuget.org'
+  #     inputs:
+  #       command: push
+  #       packagesToPush: 'artifacts/package/*.nupkg;!artifacts/package/*.symbols.nupkg'
+  #       nuGetFeedType: external
+  #       publishFeedCredentials: 'NuGet'
