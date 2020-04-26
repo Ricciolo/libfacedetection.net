@@ -71,9 +71,9 @@ jobs:
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
-        windows:
-          rid: 'windows-x64'
-          imageName: 'windows-2019'
+        # windows:
+        #   rid: 'windows-x64'
+        #   imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
@@ -122,7 +122,7 @@ jobs:
       #     script: 'ls src/libfacedetection.net/bin/Release/netstandard2.1/*'
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: 'src/libfacedetection.net/bin/Release/netstandard2.1'
+          PathtoPublish: 'test/libfacedetection.net.Test/bin/x64/Release/netcoreapp3.1'
           ArtifactName: 'temp'
           publishLocation: 'Container'
       # - task: DotNetCoreCLI@2
@@ -134,7 +134,7 @@ jobs:
       - task: CmdLine@2
         displayName: 'Test libfacedetection.net'
         inputs:
-          script: 'dotnet test -c $(buildConfiguration) -v d'
+          script: 'dotnet test -c $(buildConfiguration) --no-build -v d'
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
