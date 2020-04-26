@@ -126,7 +126,7 @@ jobs:
       - task: CmdLine@2
         displayName: 'Test libfacedetection.net'
         inputs:
-          script: 'dotnet test -c $(buildConfiguration) -v diag'
+          script: 'dotnet test -c $(buildConfiguration) -v d'
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
