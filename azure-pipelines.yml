@@ -117,6 +117,9 @@ jobs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
           arguments: '--configuration $(buildConfiguration)'
+      - task: CmdLine@2
+        inputs:
+          script: 'ls src/libfacedetection.net/bin/Release/netstandard2.1/*'
       # - task: DotNetCoreCLI@2
       #   displayName: 'Test libfacedetection.net'
       #   inputs:
