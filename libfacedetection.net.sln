@@ -17,10 +17,10 @@ Global
 		{83076198-9DDF-47CF-82E6-E6840DC71945}.Debug|x64.Build.0 = Debug|Any CPU
 		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|x64.ActiveCfg = Release|Any CPU
 		{83076198-9DDF-47CF-82E6-E6840DC71945}.Release|x64.Build.0 = Release|Any CPU
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|x64.ActiveCfg = Debug|x64
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|x64.Build.0 = Debug|x64
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|x64.ActiveCfg = Release|x64
-		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|x64.Build.0 = Release|x64
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B77B649-B408-4750-A04E-A6F3CE4BDE14}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
