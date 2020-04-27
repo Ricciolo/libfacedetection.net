@@ -45,7 +45,7 @@ jobs:
         condition: eq(variables.rid, 'win-x86')
         inputs:
           solution: 'src/libfacedetection.sln'
-          platform: 'x86'
+          platform: 'Win32'
           configuration: '$(buildConfiguration)'
       - task: VSBuild@1
         displayName: 'Build Windows native assets'
