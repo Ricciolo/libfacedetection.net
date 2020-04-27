@@ -28,7 +28,7 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: 'src'
-          cmakeArgs: '.'
+          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: VSBuild@1
         displayName: 'Build Windows native assets'
         condition: eq(variables.rid, 'windows-x64')
@@ -37,14 +37,12 @@ jobs:
           platform: 'x64'
           configuration: '$(buildConfiguration)'
       
-      - task: Bash@3
+      - task: CMake@1
         displayName: 'Build Linux native assets'
         condition: eq(variables.rid, 'linux-x64')        
         inputs:
-          targetType: 'inline'
-          workingDirectory: src
-          script: make
-      
+          workingDirectory: 'src'
+          cmakeArgs: '--build .'
       - task: CopyFiles@2
         displayName: 'Copy native binary'
         inputs:
@@ -134,7 +132,7 @@ jobs:
       - task: CmdLine@2
         displayName: 'Test libfacedetection.net'
         inputs:
-          script: 'dotnet test -c $(buildConfiguration) --no-build -v d'
+          script: 'dotnet test -c $(buildConfiguration) --no-build'
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
