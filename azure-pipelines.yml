@@ -28,16 +28,25 @@ jobs:
       vmImage: $(imageName)
 
     steps:
-      - task: CMake@1
+      - task: CMake@1      
         condition: eq(variables.rid, 'win-x86')
+        displayName: 'CMake configure'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-A Win32 -DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: CMake@1
         condition: ne(variables.rid, 'win-x86')
+        displayName: 'CMake configure'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
+      - task: VSBuild@1
+        displayName: 'Build Windows native assets'
+        condition: eq(variables.rid, 'win-x86')
+        inputs:
+          solution: 'src/libfacedetection.sln'
+          platform: 'x86'
+          configuration: '$(buildConfiguration)'
       - task: VSBuild@1
         displayName: 'Build Windows native assets'
         condition: eq(variables.rid, 'win-x64')
