@@ -67,7 +67,7 @@ jobs:
           Contents: |
             **\$(libname).dll
             **/$(libname).so
-          TargetFolder: 'artifacts/$(rid)/native'
+          TargetFolder: 'artifacts/native'
           CleanTargetFolder: true
           FlattenFolders: true
       - task: PublishBuildArtifacts@1
