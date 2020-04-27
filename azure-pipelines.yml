@@ -140,7 +140,7 @@ jobs:
           arguments: '/p:NativeOutputDir=..\native\runtimes\$(rid)\native\ --configuration $(buildConfiguration) --runtime $(rid)'
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: 'src'
+          PathtoPublish: 'test'
           ArtifactName: 'temp'
           publishLocation: 'Container'
       - task: DotNetCoreCLI@2
