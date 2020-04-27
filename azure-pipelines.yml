@@ -116,6 +116,12 @@ jobs:
           downloadType: 'specific'
           downloadPath: 'runtimes'
           artifactName: $(rid)
+      - task: CopyFiles@2
+        displayName: 'Copy native binary to src/native'
+        inputs:
+          Contents: 'runtimes/**/*'
+          #flattenFolders: true
+          TargetFolder: src/native
       - task: UseDotNet@2
         displayName: 'Use .NET Core 3.1.x'
         inputs:
@@ -126,18 +132,12 @@ jobs:
       #   condition: eq(variables.rid, 'linux-x64')
       #   inputs:
       #     script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
-      - task: CopyFiles@2
-        displayName: 'Copy native binary to src/native'
-        inputs:
-          Contents: 'runtimes/**/*'
-          #flattenFolders: true
-          TargetFolder: src/native
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
-          arguments: '--configuration $(buildConfiguration) --runtime $(rid)'
+          arguments: '/p:NativeOutputDir=..\native\runtimes\$(rid)\native\ --configuration $(buildConfiguration) --runtime $(rid)'
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'src'
