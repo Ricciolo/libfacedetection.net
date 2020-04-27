@@ -11,27 +11,36 @@ jobs:
   - job: 'BuildLib'  
     strategy:
       matrix:
-        linux:
-          imageName: 'ubuntu-18.04'
-          rid: 'linux-x64'
+        # linux:
+        #   imageName: 'ubuntu-18.04'
+        #   rid: 'linux-x64'
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
-        # windows:
-        #   rid: 'windows-x64'
+        # win-x64:
+        #   rid: 'win-x64'
         #   imageName: 'windows-2019'
+        win-x86:
+          rid: 'win-x86'
+          imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
 
     steps:
       - task: CMake@1
+        condition: eq(variables.rid, 'win-x86')
+        inputs:
+          workingDirectory: 'src'
+          cmakeArgs: '-A Win32 -DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
+      - task: CMake@1
+        condition: ne(variables.rid, 'win-x86')
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: VSBuild@1
         displayName: 'Build Windows native assets'
-        condition: eq(variables.rid, 'windows-x64')
+        condition: eq(variables.rid, 'win-x64')
         inputs:
           solution: 'src/libfacedetection.sln'
           platform: 'x64'
@@ -52,7 +61,6 @@ jobs:
           TargetFolder: 'artifacts'
           CleanTargetFolder: true
           flattenFolders: true
-
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'artifacts'
@@ -61,6 +69,7 @@ jobs:
 
   - job: 'TestLib'
     dependsOn: 'BuildLib'
+    condition: eq('a','b')
     strategy:
       matrix:
         linux:
@@ -69,22 +78,22 @@ jobs:
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
-        # windows:
-        #   rid: 'windows-x64'
-        #   imageName: 'windows-2019'
+        windows:
+          rid: 'win-x64'
+          imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
 
     steps:
       - task: DownloadBuildArtifacts@0
-        displayName: 'Download windows-x64 artifact'
-        condition: eq(variables.rid, 'windows-x64')
+        displayName: 'Download win-x64 artifact'
+        condition: eq(variables.rid, 'win-x64')
         inputs:
           downloadType: 'specific'
           itemPattern: '**/$(libname).dll'
           downloadPath: 'artifacts'
-          artifactName: 'artifacts-windows-x64'
+          artifactName: 'artifacts-win-x64'
       - task: DownloadBuildArtifacts@0
         displayName: 'Download linux-x64 artifact'
         condition: eq(variables.rid, 'linux-x64')
@@ -115,35 +124,29 @@ jobs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
           arguments: '--configuration $(buildConfiguration)'
-      # - task: CmdLine@2
-      #   inputs:
-      #     script: 'ls src/libfacedetection.net/bin/Release/netstandard2.1/*'
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'test/libfacedetection.net.Test/bin/x64/Release/netcoreapp3.1'
           ArtifactName: 'temp'
           publishLocation: 'Container'
-      # - task: DotNetCoreCLI@2
-      #   displayName: 'Test libfacedetection.net'
-      #   inputs:
-      #     command: 'test'
-      #     projects: 'libfacedetection.net.sln'
-      #     arguments: '--configuration $(buildConfiguration)'
-      - task: CmdLine@2
+      - task: DotNetCoreCLI@2
         displayName: 'Test libfacedetection.net'
         inputs:
-          script: 'dotnet test -c $(buildConfiguration) --no-build'
+          command: 'test'
+          projects: 'libfacedetection.net.sln'
+          arguments: '--configuration $(buildConfiguration)'
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
+    condition: eq('a','b')
     steps:
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download windows-x64 artifact'
+      displayName: 'Download win-x64 artifact'
       inputs:
         downloadType: 'specific'
         itemPattern: '**/$(libname).dll'
         downloadPath: 'artifacts'
-        artifactName: 'artifacts-windows-x64'
+        artifactName: 'artifacts-win-x64'
     - task: DownloadBuildArtifacts@0
       displayName: 'Download linux-x64 artifact'
       inputs:
