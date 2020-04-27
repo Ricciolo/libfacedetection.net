@@ -73,7 +73,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'artifacts'
-          ArtifactName: 'artifacts-$(rid)'
+          ArtifactName: '$(rid)'
           publishLocation: 'Container'
 
   - job: 'TestLib'
@@ -100,29 +100,28 @@ jobs:
         inputs:
           downloadType: 'specific'
           itemPattern: '**/$(libname).dll'
-          downloadPath: 'artifacts'
-          artifactName: 'artifacts-win-x64'
+          downloadPath: 'runtimes'
+          artifactName: 'win-x64'
       - task: DownloadBuildArtifacts@0
         displayName: 'Download win-x86 artifacts'
         condition: eq(variables.rid, 'win')
         inputs:
           downloadType: 'specific'
           itemPattern: '**/$(libname).dll'
-          downloadPath: 'artifacts'
-          artifactName: 'artifacts-win-x86'
+          downloadPath: 'runtimes'
+          artifactName: 'win-x86'
       - task: DownloadBuildArtifacts@0
         displayName: 'Download linux-x64 artifact'
         condition: eq(variables.rid, 'linux-x64')
         inputs:
           downloadType: 'specific'
           itemPattern: '**/$(libname).so'
-          downloadPath: 'artifacts'
-          artifactName: 'artifacts-linux-x64'
+          downloadPath: 'runtimes'
+          artifactName: $(rid)
       - task: CopyFiles@2
         displayName: 'Copy native binary to src/native'
         inputs:
-          SourceFolder: artifacts
-          Contents: '**/*'
+          Contents: 'runtimes/**/*'
           TargetFolder: src/native          
       - task: UseDotNet@2
         displayName: 'Use .NET Core 3.1.x'
