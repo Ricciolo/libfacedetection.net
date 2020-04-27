@@ -41,14 +41,14 @@ jobs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: VSBuild@1
-        displayName: 'Build Windows native x86 assets'
+        displayName: 'Build Windows native x86 asset'
         condition: eq(variables.rid, 'win-x86')
         inputs:
           solution: 'src/libfacedetection.sln'
           platform: 'Win32'
           configuration: '$(buildConfiguration)'
       - task: VSBuild@1
-        displayName: 'Build Windows native x64 assets'
+        displayName: 'Build Windows native x64 asset'
         condition: eq(variables.rid, 'win-x64')
         inputs:
           solution: 'src/libfacedetection.sln'
@@ -56,7 +56,7 @@ jobs:
           configuration: '$(buildConfiguration)'
       
       - task: CMake@1
-        displayName: 'Build Linux native x64 assets'
+        displayName: 'Build Linux native x64 asset'
         condition: eq(variables.rid, 'linux-x64')        
         inputs:
           workingDirectory: 'src'
@@ -87,42 +87,35 @@ jobs:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
         windows:
-          rid: 'win'
+          rid: 'win-x86'
           imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
 
     steps:
+      # - task: DownloadBuildArtifacts@0
+      #   displayName: 'Download $(rid) artifact'
+      #   condition: eq(variables.rid, 'win')
+      #   inputs:
+      #     downloadType: 'specific'
+      #     itemPattern: '**/$(libname).dll'
+      #     downloadPath: 'runtimes'
+      #     artifactName: 'win-x64'
+      # - task: DownloadBuildArtifacts@0
+      #   displayName: 'Download win-x86 artifact'
+      #   condition: eq(variables.rid, 'win')
+      #   inputs:
+      #     downloadType: 'specific'
+      #     itemPattern: '**/$(libname).dll'
+      #     downloadPath: 'runtimes'
+      #     artifactName: 'win-x86'
       - task: DownloadBuildArtifacts@0
-        displayName: 'Download win-x64 artifacts'
-        condition: eq(variables.rid, 'win')
+        displayName: 'Download $(rid) artifact'
         inputs:
           downloadType: 'specific'
-          itemPattern: '**/$(libname).dll'
-          downloadPath: 'runtimes'
-          artifactName: 'win-x64'
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download win-x86 artifacts'
-        condition: eq(variables.rid, 'win')
-        inputs:
-          downloadType: 'specific'
-          itemPattern: '**/$(libname).dll'
-          downloadPath: 'runtimes'
-          artifactName: 'win-x86'
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download linux-x64 artifact'
-        condition: eq(variables.rid, 'linux-x64')
-        inputs:
-          downloadType: 'specific'
-          itemPattern: '**/$(libname).so'
           downloadPath: 'runtimes'
           artifactName: $(rid)
-      - task: CopyFiles@2
-        displayName: 'Copy native binary to src/native'
-        inputs:
-          Contents: 'runtimes/**/*'
-          TargetFolder: src/native          
       - task: UseDotNet@2
         displayName: 'Use .NET Core 3.1.x'
         inputs:
@@ -133,18 +126,29 @@ jobs:
       #   condition: eq(variables.rid, 'linux-x64')
       #   inputs:
       #     script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
+      - task: CopyFiles@2
+        displayName: 'Copy native binary to src/native'
+        inputs:
+          Contents: 'runtimes/**/*'
+          #flattenFolders: true
+          TargetFolder: src/native
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
-          arguments: '--configuration $(buildConfiguration)'
+          arguments: '--configuration $(buildConfiguration) --runtime $(rid)'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: 'src'
+          ArtifactName: 'temp'
+          publishLocation: 'Container'
       - task: DotNetCoreCLI@2
         displayName: 'Test libfacedetection.net'
         inputs:
           command: 'test'
           projects: 'libfacedetection.net.sln'
-          arguments: '--configuration $(buildConfiguration)'
+          arguments: '--configuration $(buildConfiguration) --runtime $(rid)'
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
