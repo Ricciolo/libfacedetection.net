@@ -137,7 +137,7 @@ jobs:
         inputs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
-          arguments: '/p:NativeOutputDir=..\native\runtimes\$(rid)\native\ --configuration $(buildConfiguration) --runtime $(rid)'
+          arguments: '/p:NativeOutputDir=..\native\runtimes\$(rid)\native\ --configuration $(buildConfiguration)'
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'test'
