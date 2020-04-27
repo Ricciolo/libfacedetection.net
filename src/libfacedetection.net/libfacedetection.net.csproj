@@ -17,16 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(NativeOutputDir)$(NativeLibName).dll" Condition="Exists('$(NativeOutputDir)$(NativeLibName).dll')">
+    <Content Include="$(NativeOutputDir)**\*.dll">
       <Pack>true</Pack>
-      <Link>%(Filename)%(Extension)</Link>
-      <PackagePath>runtimes/win-x64/native/%(Filename)%(Extension)</PackagePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(NativeOutputDir)$(NativeLibName).so" Condition="Exists('$(NativeOutputDir)$(NativeLibName).so')">
-      <Pack>true</Pack>
-      <Link>%(Filename)%(Extension)</Link>
-      <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
+      <PackagePath>%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.png" />
