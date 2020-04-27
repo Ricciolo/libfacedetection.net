@@ -30,25 +30,25 @@ jobs:
     steps:
       - task: CMake@1      
         condition: eq(variables.rid, 'win-x86')
-        displayName: 'CMake configure'
+        displayName: 'CMake configure x86'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-A Win32 -DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: CMake@1
         condition: ne(variables.rid, 'win-x86')
-        displayName: 'CMake configure'
+        displayName: 'CMake configure x64'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: VSBuild@1
-        displayName: 'Build Windows native assets'
+        displayName: 'Build Windows native x86 assets'
         condition: eq(variables.rid, 'win-x86')
         inputs:
           solution: 'src/libfacedetection.sln'
           platform: 'Win32'
           configuration: '$(buildConfiguration)'
       - task: VSBuild@1
-        displayName: 'Build Windows native assets'
+        displayName: 'Build Windows native x64 assets'
         condition: eq(variables.rid, 'win-x64')
         inputs:
           solution: 'src/libfacedetection.sln'
@@ -56,7 +56,7 @@ jobs:
           configuration: '$(buildConfiguration)'
       
       - task: CMake@1
-        displayName: 'Build Linux native assets'
+        displayName: 'Build Linux native x64 assets'
         condition: eq(variables.rid, 'linux-x64')        
         inputs:
           workingDirectory: 'src'
@@ -67,9 +67,9 @@ jobs:
           Contents: |
             **\$(libname).dll
             **/$(libname).so
-          TargetFolder: 'artifacts'
+          TargetFolder: 'artifacts/$(rid)/native'
           CleanTargetFolder: true
-          flattenFolders: true
+          FlattenFolders: true
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'artifacts'
@@ -78,17 +78,16 @@ jobs:
 
   - job: 'TestLib'
     dependsOn: 'BuildLib'
-    condition: eq('a','b')
     strategy:
       matrix:
-        linux:
-          imageName: 'ubuntu-18.04'
-          rid: 'linux-x64'
+        # linux:
+        #   imageName: 'ubuntu-18.04'
+        #   rid: 'linux-x64'
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
         windows:
-          rid: 'win-x64'
+          rid: 'win'
           imageName: 'windows-2019'
 
     pool:
@@ -96,13 +95,21 @@ jobs:
 
     steps:
       - task: DownloadBuildArtifacts@0
-        displayName: 'Download win-x64 artifact'
-        condition: eq(variables.rid, 'win-x64')
+        displayName: 'Download win-x64 artifacts'
+        condition: eq(variables.rid, 'win')
         inputs:
           downloadType: 'specific'
           itemPattern: '**/$(libname).dll'
           downloadPath: 'artifacts'
           artifactName: 'artifacts-win-x64'
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download win-x86 artifacts'
+        condition: eq(variables.rid, 'win')
+        inputs:
+          downloadType: 'specific'
+          itemPattern: '**/$(libname).dll'
+          downloadPath: 'artifacts'
+          artifactName: 'artifacts-win-x86'
       - task: DownloadBuildArtifacts@0
         displayName: 'Download linux-x64 artifact'
         condition: eq(variables.rid, 'linux-x64')
@@ -114,30 +121,25 @@ jobs:
       - task: CopyFiles@2
         displayName: 'Copy native binary to src/native'
         inputs:
-          Contents: 'artifacts/**/*'
-          TargetFolder: src/native
-          flattenFolders: true        
+          SourceFolder: artifacts
+          Contents: '**/*'
+          TargetFolder: src/native          
       - task: UseDotNet@2
         displayName: 'Use .NET Core 3.1.x'
         inputs:
           packageType: 'sdk'
           version: '3.1.x'
-      - task: CmdLine@2
-        displayName: 'Install linux dependencies'
-        condition: eq(variables.rid, 'linux-x64')
-        inputs:
-          script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
+      # - task: CmdLine@2
+      #   displayName: 'Install linux dependencies'
+      #   condition: eq(variables.rid, 'linux-x64')
+      #   inputs:
+      #     script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
           arguments: '--configuration $(buildConfiguration)'
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: 'test/libfacedetection.net.Test/bin/x64/Release/netcoreapp3.1'
-          ArtifactName: 'temp'
-          publishLocation: 'Container'
       - task: DotNetCoreCLI@2
         displayName: 'Test libfacedetection.net'
         inputs:
