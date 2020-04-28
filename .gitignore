@@ -8,3 +8,4 @@ Release/
 packages/
 artifacts/
 src/out
+/samples/AzureFunction/local.settings.json
