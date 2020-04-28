@@ -14,6 +14,7 @@
     <PackageTags>cnn cnn-classification face-detection face</PackageTags>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/Ricciolo/libfacedetection.net</PackageProjectUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

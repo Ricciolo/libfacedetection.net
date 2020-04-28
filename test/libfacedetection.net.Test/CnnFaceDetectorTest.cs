@@ -32,17 +32,24 @@ namespace LibFaceDetection.Test
             _testOutputHelper.WriteLine("Elapsed {0}", stopwatch.Elapsed.ToString());
 
             Assert.Equal(49, result.Count);
+        }
 
-            using (var graphics = Graphics.FromImage(bitmap))
+        [Fact]
+        public void ResizeFace()
+        {
+            using var detector = new CnnFaceDetector();
+            
+            using (var bitmap = new Bitmap("faceh.jpg"))
             {
-                foreach (var faceDetected in result)
-                {
-                    graphics.DrawRectangle(new Pen(Color.Red, 2), faceDetected.Rectangle);
-                    graphics.DrawString((faceDetected.Confidence * 100).ToString("0"), SystemFonts.DefaultFont, Brushes.Red, faceDetected.Rectangle);
-                }
+                var result = detector.Detect(bitmap, new Size(100, 100));
+                Assert.Equal(1, result.Count);
             }
 
-            bitmap.Save("faces_out.jpg");
+            using (var bitmap = new Bitmap("facev.jpg"))
+            {
+                var result = detector.Detect(bitmap, new Size(100, 100));
+                Assert.Equal(1, result.Count);
+            }
         }
 
         [Fact]
