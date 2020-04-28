@@ -8,3 +8,6 @@ This project is based on [libfacedetection](https://github.com/ShiqiYu/libfacede
 ![Output generated with sample](doc/assets/faces.jpg)
 
 ## Getting started
+
+### Credits
+Thanks [nostromo117](https://github.com/nostromo117) for the logo
