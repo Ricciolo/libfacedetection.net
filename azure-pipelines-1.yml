@@ -20,6 +20,7 @@ steps:
   displayName: Deploy to Azure
   inputs:
     azureSubscription: 'Ricciolo - Windows Azure MSDN - Visual Studio Ultimate(3cc10a93-788e-4cbc-96a2-7b6f1bbfdca3)'
-    appType: 'functionAppLinux'
+    appType: 'functionApp'
     appName: 'libfacedetectionnet'
     package: 'publish/AzureFunction.zip'
+    deploymentMethod: 'runFromPackage'
