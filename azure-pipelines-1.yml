@@ -16,8 +16,10 @@ steps:
     publishWebProjects: false 
     arguments: -o publish
     projects: 'samples/AzureFunction/AzureFunction.csproj'
-- task: PublishBuildArtifacts@1
+- task: AzureFunctionApp@1
+  displayName: Deploy to Azure
   inputs:
-    PathtoPublish: publish
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    azureSubscription: 'Ricciolo - Windows Azure MSDN - Visual Studio Ultimate(3cc10a93-788e-4cbc-96a2-7b6f1bbfdca3)'
+    appType: 'functionAppLinux'
+    appName: 'libfacedetectionnet'
+    package: 'publish/AzureFunction.zip'
