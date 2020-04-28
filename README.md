@@ -1,4 +1,4 @@
-![Logo](doc/assets/faces.jpg =150x)
+![Logo](doc/assets/faces.jpg | width=150)
 
 [![NuGet version (Newtonsoft.Json)](https://img.shields.io/nuget/v/libfacedetection.net.svg?style=flat-square)](https://www.nuget.org/packages/libfacedetection.net/)
 ![Build Status](https://dev.azure.com/ricciolo/libfacedetection.net/_build/latest?definitionId=30&branchName=master)
