@@ -14,4 +14,10 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false 
+    arguments: -o publish
     projects: 'samples/AzureFunction/AzureFunction.csproj'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: publish
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
