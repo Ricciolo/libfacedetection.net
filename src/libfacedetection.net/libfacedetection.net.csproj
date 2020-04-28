@@ -17,12 +17,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(NativeOutputDir)**\*.dll">
+    <Content Include="$(NativeOutputDir)**\*.dll;$(NativeOutputDir)**\*.so">
       <Pack>true</Pack>
       <PackagePath>%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="logo.png" />
   </ItemGroup>
 
   <ItemGroup>
