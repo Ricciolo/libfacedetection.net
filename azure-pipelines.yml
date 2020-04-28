@@ -11,15 +11,15 @@ jobs:
   - job: 'BuildLib'  
     strategy:
       matrix:
-        # linux:
-        #   imageName: 'ubuntu-18.04'
-        #   rid: 'linux-x64'
+        linux:
+          imageName: 'ubuntu-18.04'
+          rid: 'linux-x64'
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
-        # win-x64:
-        #   rid: 'win-x64'
-        #   imageName: 'windows-2019'
+        win-x64:
+          rid: 'win-x64'
+          imageName: 'windows-2019'
         win-x86:
           rid: 'win-x86'
           imageName: 'windows-2019'
@@ -113,11 +113,6 @@ jobs:
         inputs:
           packageType: 'sdk'
           version: '3.1.x'
-      # - task: CmdLine@2
-      #   displayName: 'Install linux dependencies'
-      #   condition: eq(variables.rid, 'linux-x64')
-      #   inputs:
-      #     script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
@@ -133,7 +128,6 @@ jobs:
 
   - job: 'BuildPackage'
     dependsOn: 'TestLib'
-    condition: eq('a','b')
     steps:
     - task: DownloadBuildArtifacts@0
       displayName: 'Download win-x64 artifact'
