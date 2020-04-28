@@ -80,13 +80,16 @@ jobs:
     dependsOn: 'BuildLib'
     strategy:
       matrix:
-        # linux:
-        #   imageName: 'ubuntu-18.04'
-        #   rid: 'linux-x64'
+        linux:
+          imageName: 'ubuntu-18.04'
+          rid: 'linux-x64'
         # mac:
         #   imageName: 'macos-10.14'
         #   rid: 'osx-x64'
-        windows:
+        win-x64:
+          rid: 'win-x64'
+          imageName: 'windows-2019'
+        win-x86:
           rid: 'win-x86'
           imageName: 'windows-2019'
 
@@ -94,22 +97,6 @@ jobs:
       vmImage: $(imageName)
 
     steps:
-      # - task: DownloadBuildArtifacts@0
-      #   displayName: 'Download $(rid) artifact'
-      #   condition: eq(variables.rid, 'win')
-      #   inputs:
-      #     downloadType: 'specific'
-      #     itemPattern: '**/$(libname).dll'
-      #     downloadPath: 'runtimes'
-      #     artifactName: 'win-x64'
-      # - task: DownloadBuildArtifacts@0
-      #   displayName: 'Download win-x86 artifact'
-      #   condition: eq(variables.rid, 'win')
-      #   inputs:
-      #     downloadType: 'specific'
-      #     itemPattern: '**/$(libname).dll'
-      #     downloadPath: 'runtimes'
-      #     artifactName: 'win-x86'
       - task: DownloadBuildArtifacts@0
         displayName: 'Download $(rid) artifact'
         inputs:
@@ -120,7 +107,6 @@ jobs:
         displayName: 'Copy native binary to src/native'
         inputs:
           Contents: 'runtimes/**/*'
-          #flattenFolders: true
           TargetFolder: src/native
       - task: UseDotNet@2
         displayName: 'Use .NET Core 3.1.x'
@@ -138,11 +124,6 @@ jobs:
           command: 'build'
           projects: 'libfacedetection.net.sln'
           arguments: '/p:NativeOutputDir=..\native\runtimes\$(rid)\native\ --configuration $(buildConfiguration) --runtime $(rid)'
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: 'test'
-          ArtifactName: 'temp'
-          publishLocation: 'Container'
       - task: DotNetCoreCLI@2
         displayName: 'Test libfacedetection.net'
         inputs:
@@ -158,22 +139,25 @@ jobs:
       displayName: 'Download win-x64 artifact'
       inputs:
         downloadType: 'specific'
-        itemPattern: '**/$(libname).dll'
-        downloadPath: 'artifacts'
-        artifactName: 'artifacts-win-x64'
+        downloadPath: 'runtimes'
+        artifactName: 'win-x64'
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download win-x86 artifact'
+      inputs:
+        downloadType: 'specific'
+        downloadPath: 'runtimes'
+        artifactName: 'win-x86'
     - task: DownloadBuildArtifacts@0
       displayName: 'Download linux-x64 artifact'
       inputs:
         downloadType: 'specific'
-        itemPattern: '**/$(libname).so'
-        downloadPath: 'artifacts'
-        artifactName: 'artifacts-linux-x64'
+        downloadPath: 'runtimes'
+        artifactName: 'linux-x64'
     - task: CopyFiles@2
       displayName: 'Copy native binary to src/native'
       inputs:
-        Contents: 'artifacts/**/*'
+        Contents: 'runtimes/**/*'
         TargetFolder: src/native
-        flattenFolders: true        
     - task: UseDotNet@2
       displayName: 'Use .NET Core 3.1.x'
       inputs:
