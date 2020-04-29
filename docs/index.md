@@ -2,7 +2,7 @@
     #form {
         background: white;
         border-radius: 5px;
-        border: 2px dashed #b5e853;
+        border: 2px dashed #2268b2;
         border-image: none;
         max-width: 500px;
         margin-left: auto;
@@ -19,12 +19,16 @@
     #canvas {
         display: none;
     }
+    
+    .privacy {
+        font-size: 12px;
+    }
 </style>
 
 <div id="form">
     <p>Choose image to upload <i>Max 1MB</i></p>
     <input type="file" id="file" accept="image/*" />
-    <p>Image will not be stored!</p>
+    <p class="privacy">Image will not be stored!</p>
 </div>
 <div id="container">
     <h4 id="message"></h4>
