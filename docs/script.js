@@ -35,7 +35,9 @@ var showResult = (result, file) => {
         context.strokeStyle = 'red';
 
         context.scale(width / b.width, height / b.height);
-        result.forEach(r => {
+        result
+            .filter(r => r.confidence > 0.7)
+            .forEach(r => {
             const p = r.rectangle.split(', ', 4);
             context.strokeRect(p[0], p[1], p[2], p[3]);
         });
