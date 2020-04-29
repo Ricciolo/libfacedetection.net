@@ -42,11 +42,12 @@ namespace LibFaceDetection
         /// <returns></returns>
         public IReadOnlyList<CnnFaceDetected> Detect(Bitmap bitmap, Size maxSize)
         {
+            float? scaleX = null, scaleY = null;
+
             // Resize image if needed
             if (bitmap.Width > maxSize.Width || bitmap.Height > maxSize.Height)
             {
-                int width;
-                int height;
+                int width, height;
                 if (bitmap.Height > bitmap.Width)
                 {
                     // Use height as max
@@ -59,10 +60,21 @@ namespace LibFaceDetection
                     width = maxSize.Width;
                     height = width * bitmap.Height / bitmap.Width;
                 }
+
+                scaleX = bitmap.Width / (float)width;
+                scaleY = bitmap.Height / (float)height;
                 bitmap = new Bitmap(bitmap, width, height);
             }
 
-            return Detect(bitmap);
+            IReadOnlyList<CnnFaceDetected> result = Detect(bitmap);
+
+            // Apply scale, if needed
+            if (scaleX.HasValue)
+            {
+                result = result.Select(r => r.Scale(scaleX.Value, scaleY.Value)).ToArray();
+            }
+
+            return result;
         }
 
         /// <summary>
