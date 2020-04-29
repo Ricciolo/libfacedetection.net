@@ -20,11 +20,11 @@
             display: none;
         }
     </style>
-    <form id="form">
+    <div id="form">
         <p>Choose image to upload <i>Max 1MB</i></p>
         <input type="file" id="file" accept="image/*" />
         <p>Image will not be stored!</p>
-    </form>
+    </div>
     <div id="container">
         <h4 id="message"></h4>
         <canvas id="canvas">
