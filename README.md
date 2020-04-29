@@ -3,6 +3,7 @@
 [![Build Status](https://dev.azure.com/ricciolo/libfacedetection.net/_apis/build/status/Ricciolo.libfacedetection.net?branchName=master)](https://dev.azure.com/ricciolo/libfacedetection.net/_build/latest?definitionId=30&branchName=master)
 
 This project is based on [libfacedetection](https://github.com/ShiqiYu/libfacedetection) implementation. A .NET wrapper calls native implementations compiled for [RIDs](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) win-x86, win-x64 and linux-x64
+### [Live demo](https://ricciolo.github.io/libfacedetection.net/)
 
 ### Result
 ![Output generated with sample](docs/assets/faces.jpg)
