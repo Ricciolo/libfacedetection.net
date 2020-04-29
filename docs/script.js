@@ -56,7 +56,7 @@ var uploadFile = (file) => {
             var result = JSON.parse(xhr.responseText);
             showResult(result, file);
         } else if (xhr.status === 429) {
-            showResult('Too many requests. Please wait');
+            showResult('Too many requests. Please retry in few minutes');
         } else {
             showResult('Unexpected result from server');
         }
