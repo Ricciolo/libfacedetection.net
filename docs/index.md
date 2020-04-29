@@ -25,6 +25,7 @@
     }
 </style>
 
+## Live demo
 <div id="form">
     <p>Choose image to upload <i>Max 1MB</i></p>
     <input type="file" id="file" accept="image/*" />
