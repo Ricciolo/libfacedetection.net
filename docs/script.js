@@ -34,7 +34,7 @@ var showResult = (result, file) => {
         context.lineWidth = 2;
         context.strokeStyle = 'red';
 
-        context.scale(b.width / width, b.height / height);
+        context.scale(width / b.width, height / b.height);
         result.forEach(r => {
             const p = r.rectangle.split(', ', 4);
             context.strokeRect(p[0], p[1], p[2], p[3]);
