@@ -1,6 +1,7 @@
 var file = document.getElementById('file');
 var message = document.getElementById('message');
 var canvas = document.getElementById('canvas');
+var xhr;
 
 var showResult = (result, file) => {
     if (typeof result === 'string') {
@@ -9,7 +10,7 @@ var showResult = (result, file) => {
         return;
     }
 
-    message.innerText = '';
+    message.innerText = 'Detected ' + result.length + ' face/s';
 
     createImageBitmap(file).then(b => {
         const max = 700;
@@ -46,7 +47,10 @@ var showResult = (result, file) => {
 var uploadFile = (file) => {
     showResult('Uploading...');
 
-    var xhr = new XMLHttpRequest();
+    if (xhr) {
+        xhr.abort();
+    }
+    xhr = new XMLHttpRequest();
     xhr.addEventListener('load', e => {
         if (xhr.status === 200) {
             var result = JSON.parse(xhr.responseText);
@@ -56,9 +60,11 @@ var uploadFile = (file) => {
         } else {
             showResult('Unexpected result from server');
         }
+        xhr = undefined;
     }), false;
     xhr.addEventListener('error', e => {
         showResult('Cannot upload the image');
+        xhr = undefined;
     }, false);
     xhr.open('POST', 'https://libfacedetectionnet.azurewebsites.net/api/Detect');
     xhr.send(file);
