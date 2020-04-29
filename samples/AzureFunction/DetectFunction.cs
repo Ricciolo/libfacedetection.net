@@ -53,7 +53,7 @@ namespace AzureFunction
                 detector = FaceDetectors.Get();
 
                 // Detect faces
-                IReadOnlyList<CnnFaceDetected> result = detector.Detect(bitmap, new Size(200, 200));
+                IReadOnlyList<CnnFaceDetected> result = detector.Detect(bitmap, new Size(400, 400));
                 log.LogInformation("Found {faces} faces", result.Count);
 
                 return new OkObjectResult(result);
