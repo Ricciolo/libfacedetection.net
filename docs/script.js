@@ -13,9 +13,9 @@ var showResult = (result, file) => {
     alert(result);
     message.innerText = 'Detected ' + result.length + ' face/s';
 
-    alert(typeof createImageBitmap);
+    alert(typeof window.createImageBitmap);
     try {
-    createImageBitmap(file).then(b => {
+    window.createImageBitmap(file).then(b => {
         message.innerText += 'created';
         
         const max = 700;
