@@ -27,12 +27,16 @@ var showResult = (result, file) => {
         }
         canvas.width = width;
         canvas.height = height;
+        
+        message.innerText += ' canvas ' + width + ' ' + height;
 
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, width, height);
         context.drawImage(b, 0, 0, width, height);
         context.lineWidth = 2;
         context.strokeStyle = 'red';
+        
+        message.innerText += ' draw';
 
         context.scale(width / b.width, height / b.height);
         result
@@ -41,7 +45,7 @@ var showResult = (result, file) => {
             const p = r.rectangle.split(', ', 4);
             context.strokeRect(p[0], p[1], p[2], p[3]);
         });
-    }).catch(e => alert(e));
+    });
 
     canvas.style.display = 'inline';
 }
