@@ -37,4 +37,4 @@
 
     </canvas>
 </div>
-<script src="script.js?2"></script>
+<script src="script.js?3"></script>
