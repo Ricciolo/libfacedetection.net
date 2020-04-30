@@ -37,5 +37,4 @@
 
     </canvas>
 </div>
-<script src="script.js?1"></script>
-<script>alert(typeof createImageBitmap);</script>
+<script src="script.js?2"></script>
