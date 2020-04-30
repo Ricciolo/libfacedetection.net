@@ -12,6 +12,7 @@ var showResult = (result, file) => {
 
     message.innerText = 'Detected ' + result.length + ' face/s';
 
+    try {
     createImageBitmap(file).then(b => {
         message.innerText += 'created';
         
@@ -48,6 +49,9 @@ var showResult = (result, file) => {
             context.strokeRect(p[0], p[1], p[2], p[3]);
         });
     });
+    } catch (err) {
+        alert(err);
+    }
 
     canvas.style.display = 'inline';
 }
