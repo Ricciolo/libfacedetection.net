@@ -17,7 +17,7 @@
     }
 
     #canvas {
-        display: none;
+        #display: none;
     }
     
     .privacy {
