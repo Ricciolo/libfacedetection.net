@@ -3,6 +3,18 @@ var message = document.getElementById('message');
 var canvas = document.getElementById('canvas');
 var xhr;
 
+if (!('createImageBitmap' in window)) {
+    window.createImageBitmap = async function(blob) {
+        return new Promise((resolve,reject) => {
+            let img = document.createElement('img');
+            img.addEventListener('load', function() {
+                resolve(this);
+            });
+            img.src = URL.createObjectURL(blob);
+        });
+    }
+}
+
 var showResult = (result, file) => {
     if (typeof result === 'string') {
         canvas.style.display = 'none';
@@ -10,12 +22,10 @@ var showResult = (result, file) => {
         return;
     }
 
-    alert(result);
     message.innerText = 'Detected ' + result.length + ' face/s';
 
     alert(typeof window.createImageBitmap);
-    try {
-    window.createImageBitmap(file).then(b => {
+    createImageBitmap(file).then(b => {
         message.innerText += 'created';
         
         const max = 700;
@@ -33,16 +43,12 @@ var showResult = (result, file) => {
         canvas.width = width;
         canvas.height = height;
         
-        message.innerText += ' canvas ' + width + ' ' + height;
-
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, width, height);
         context.drawImage(b, 0, 0, width, height);
         context.lineWidth = 2;
         context.strokeStyle = 'red';
         
-        message.innerText += ' draw';
-
         context.scale(width / b.width, height / b.height);
         result
             .filter(r => r.confidence > 0.5)
@@ -51,9 +57,6 @@ var showResult = (result, file) => {
             context.strokeRect(p[0], p[1], p[2], p[3]);
         });
     });
-    } catch (err) {
-        alert(err);
-    }
 
     canvas.style.display = 'inline';
 }
