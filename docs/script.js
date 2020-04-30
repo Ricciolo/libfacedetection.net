@@ -25,8 +25,6 @@ var showResult = (result, file) => {
     message.innerText = 'Detected ' + result.length + ' face/s';
 
     createImageBitmap(file).then(b => {
-        message.innerText += 'created';
-        
         const max = document.getElementById('main-content').offsetWidth;
         var width = b.width;
         var height = b.height;
