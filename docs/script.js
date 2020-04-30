@@ -24,11 +24,10 @@ var showResult = (result, file) => {
 
     message.innerText = 'Detected ' + result.length + ' face/s';
 
-    alert(typeof window.createImageBitmap);
     createImageBitmap(file).then(b => {
         message.innerText += 'created';
         
-        const max = 700;
+        const max = document.getElementById('main-content').offsetWidth;
         var width = b.width;
         var height = b.height;
         if (b.width > max || b.height > max) {
