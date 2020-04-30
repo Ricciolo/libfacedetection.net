@@ -13,8 +13,7 @@ var showResult = (result, file) => {
     alert(result);
     message.innerText = 'Detected ' + result.length + ' face/s';
 
-    alert(file);
-    alert(createImageBitmap);
+    alert(typeof createImageBitmap);
     try {
     createImageBitmap(file).then(b => {
         message.innerText += 'created';
