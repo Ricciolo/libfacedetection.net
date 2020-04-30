@@ -13,6 +13,8 @@ var showResult = (result, file) => {
     message.innerText = 'Detected ' + result.length + ' face/s';
 
     createImageBitmap(file).then(b => {
+        message.innerText += 'created';
+        
         const max = 700;
         var width = b.width;
         var height = b.height;
