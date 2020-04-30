@@ -10,6 +10,7 @@ var showResult = (result, file) => {
         return;
     }
 
+    alert(result);
     message.innerText = 'Detected ' + result.length + ' face/s';
 
     alert(file);
