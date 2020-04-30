@@ -61,8 +61,8 @@ var showResult = (result, file) => {
 }
 
 var uploadFile = (file) => {
-    showResult([], file);
-    return;
+    //showResult([], file);
+    //return;
     showResult('Uploading...');
 
     if (xhr) {
