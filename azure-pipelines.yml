@@ -44,7 +44,7 @@ jobs:
         displayName: 'CMake configure x64 for macOS'
         inputs:
           workingDirectory: 'src'
-          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" DCMAKE_OSX_DEPLOYMENT_TARGET=10.14 .'
+          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14 .'
       - task: VSBuild@1
         displayName: 'Build Windows native x86 asset'
         condition: eq(variables.rid, 'win-x86')
