@@ -125,6 +125,7 @@ namespace LibFaceDetection
         public IReadOnlyList<CnnFaceDetected> Detect(IntPtr bitmap, bool rgbToBgr, int width, int height, int stride)
         {
             var result = new List<Interop.FaceDetected>();
+            return result;
 
             int Callback(in Interop.FaceDetected faceDetected)
             {
