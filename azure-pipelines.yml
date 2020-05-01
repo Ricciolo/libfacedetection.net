@@ -10,18 +10,18 @@ jobs:
   - job: 'BuildLib'  
     strategy:
       matrix:
-        # linux:
-        #   imageName: 'ubuntu-18.04'
-        #   rid: 'linux-x64'
-        mac:
-          imageName: 'macos-10.15'
-          rid: 'osx-x64'
-        # win-x64:
-        #   rid: 'win-x64'
-        #   imageName: 'windows-2019'
-        # win-x86:
-        #   rid: 'win-x86'
-        #   imageName: 'windows-2019'
+        linux:
+          imageName: 'ubuntu-18.04'
+          rid: 'linux-x64'
+        # mac:
+        #   imageName: 'macos-10.15'
+        #   rid: 'osx-x64'
+        win-x64:
+          rid: 'win-x64'
+          imageName: 'windows-2019'
+        win-x86:
+          rid: 'win-x86'
+          imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
@@ -85,18 +85,18 @@ jobs:
     dependsOn: 'BuildLib'
     strategy:
       matrix:
-        # linux-x64:
-        #   imageName: 'ubuntu-18.04'
-        #   rid: 'linux-x64'
-        mac:
-          imageName: 'macos-10.15'
-          rid: 'osx-x64'
-        # win-x64:
-        #   rid: 'win-x64'
-        #   imageName: 'windows-2019'
-        # win-x86:
-        #   rid: 'win-x86'
-        #   imageName: 'windows-2019'
+        linux-x64:
+          imageName: 'ubuntu-18.04'
+          rid: 'linux-x64'
+        # mac:
+        #   imageName: 'macos-10.15'
+        #   rid: 'osx-x64'
+        win-x64:
+          rid: 'win-x64'
+          imageName: 'windows-2019'
+        win-x86:
+          rid: 'win-x86'
+          imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
@@ -159,12 +159,12 @@ jobs:
         downloadType: 'specific'
         downloadPath: 'runtimes'
         artifactName: 'linux-x64'
-    - task: DownloadBuildArtifacts@0
-      displayName: 'Download osx-x64 artifact'
-      inputs:
-        downloadType: 'specific'
-        downloadPath: 'runtimes'
-        artifactName: 'osx-x64'
+    # - task: DownloadBuildArtifacts@0
+    #   displayName: 'Download osx-x64 artifact'
+    #   inputs:
+    #     downloadType: 'specific'
+    #     downloadPath: 'runtimes'
+    #     artifactName: 'osx-x64'
     - task: CopyFiles@2
       displayName: 'Copy native binary to src/native'
       inputs:
@@ -193,10 +193,10 @@ jobs:
       inputs:
         downloadPath: 'artifacts'
         artifactName: 'package'
-    # - task: NuGetCommand@2
-    #   displayName: 'Publish to nuget.org'
-    #   inputs:
-    #     command: push
-    #     packagesToPush: 'artifacts/package/*.nupkg;!artifacts/package/*.symbols.nupkg'
-    #     nuGetFeedType: external
-    #     publishFeedCredentials: 'NuGet'
+    - task: NuGetCommand@2
+      displayName: 'Publish to nuget.org'
+      inputs:
+        command: push
+        packagesToPush: 'artifacts/package/*.nupkg;!artifacts/package/*.symbols.nupkg'
+        nuGetFeedType: external
+        publishFeedCredentials: 'NuGet'
