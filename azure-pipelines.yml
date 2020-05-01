@@ -34,11 +34,17 @@ jobs:
           workingDirectory: 'src'
           cmakeArgs: '-A Win32 -DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: CMake@1
-        condition: ne(variables.rid, 'win-x86')
+        condition: and(ne(variables.rid, 'win-x86'), ne(variables.rid, 'osx-x86'))
         displayName: 'CMake configure x64'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
+      - task: CMake@1
+        condition: eq(variables.rid, 'osx-x86')
+        displayName: 'CMake configure x64 for macOS'
+        inputs:
+          workingDirectory: 'src'
+          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" -mmacosx-version-min=10.14 .'
       - task: VSBuild@1
         displayName: 'Build Windows native x86 asset'
         condition: eq(variables.rid, 'win-x86')
@@ -52,8 +58,7 @@ jobs:
         inputs:
           solution: 'src/libfacedetection.sln'
           platform: 'x64'
-          configuration: '$(buildConfiguration)'
-      
+          configuration: '$(buildConfiguration)'      
       - task: CMake@1
         displayName: 'Build Linux native x64 asset'
         condition: or(eq(variables.rid, 'linux-x64'), eq(variables.rid, 'osx-x64'))
