@@ -20,6 +20,9 @@ namespace LibFaceDetection
         /// </summary>
         public CnnFaceDetector()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                throw new InvalidOperationException("Only Windows and Linux are supported right now");
+
             _instance = Interop.Ctor();
         }
 
