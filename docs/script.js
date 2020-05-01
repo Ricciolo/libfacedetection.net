@@ -3,6 +3,18 @@ var message = document.getElementById('message');
 var canvas = document.getElementById('canvas');
 var xhr;
 
+if (!('createImageBitmap' in window)) {
+    window.createImageBitmap = async function(blob) {
+        return new Promise((resolve,reject) => {
+            let img = document.createElement('img');
+            img.addEventListener('load', function() {
+                resolve(this);
+            });
+            img.src = URL.createObjectURL(blob);
+        });
+    }
+}
+
 var showResult = (result, file) => {
     if (typeof result === 'string') {
         canvas.style.display = 'none';
@@ -13,7 +25,7 @@ var showResult = (result, file) => {
     message.innerText = 'Detected ' + result.length + ' face/s';
 
     createImageBitmap(file).then(b => {
-        const max = 700;
+        const max = document.getElementById('main-content').offsetWidth;
         var width = b.width;
         var height = b.height;
         if (b.width > max || b.height > max) {
@@ -27,15 +39,17 @@ var showResult = (result, file) => {
         }
         canvas.width = width;
         canvas.height = height;
-
+        
         var context = canvas.getContext('2d');
         context.clearRect(0, 0, width, height);
         context.drawImage(b, 0, 0, width, height);
         context.lineWidth = 2;
         context.strokeStyle = 'red';
-
+        
         context.scale(width / b.width, height / b.height);
-        result.forEach(r => {
+        result
+            .filter(r => r.confidence > 0.5)
+            .forEach(r => {
             const p = r.rectangle.split(', ', 4);
             context.strokeRect(p[0], p[1], p[2], p[3]);
         });
@@ -45,6 +59,8 @@ var showResult = (result, file) => {
 }
 
 var uploadFile = (file) => {
+    //showResult([], file);
+    //return;
     showResult('Uploading...');
 
     if (xhr) {
