@@ -117,9 +117,7 @@ jobs:
         displayName: 'Setup dependencies'
         condition: or(eq(variables.rid, 'linux-x64'), eq(variables.rid, 'osx-x64'))
         inputs:
-          script: |
-            sudo apt install libc6-dev 
-            sudo apt install libgdiplus
+          script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
