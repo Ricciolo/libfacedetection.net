@@ -115,9 +115,9 @@ jobs:
           version: '3.1.x'
       - task: CmdLine@2
         displayName: 'Setup dependencies'
-        condition: or(eq(variables.rid, 'linux-x64'), eq(variables.rid, 'osx-x64'))
+        condition: eq(variables.rid, 'osx-x64')
         inputs:
-          script: 'sudo apt-get update && sudo apt-get install libc6-dev libgdiplus'
+          script: 'brew install mono-libgdiplus'
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
