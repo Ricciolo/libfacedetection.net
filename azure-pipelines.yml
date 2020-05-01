@@ -34,13 +34,13 @@ jobs:
           workingDirectory: 'src'
           cmakeArgs: '-A Win32 -DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: CMake@1
-        condition: and(ne(variables.rid, 'win-x86'), ne(variables.rid, 'osx-x86'))
+        condition: and(ne(variables.rid, 'win-x86'), ne(variables.rid, 'osx-x64'))
         displayName: 'CMake configure x64'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: CMake@1
-        condition: eq(variables.rid, 'osx-x86')
+        condition: eq(variables.rid, 'osx-x64')
         displayName: 'CMake configure x64 for macOS'
         inputs:
           workingDirectory: 'src'
