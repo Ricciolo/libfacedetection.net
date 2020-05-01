@@ -117,8 +117,9 @@ jobs:
         displayName: 'Setup dependencies'
         condition: eq(variables.rid, 'osx-x64')
         inputs:
-          script: 'brew update
-          brew install mono-libgdiplus'
+          script: |
+            brew update
+            brew install mono-libgdiplus
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
