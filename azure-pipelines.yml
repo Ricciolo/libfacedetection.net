@@ -10,18 +10,18 @@ jobs:
   - job: 'BuildLib'  
     strategy:
       matrix:
-        linux:
-          imageName: 'ubuntu-18.04'
-          rid: 'linux-x64'
+        # linux:
+        #   imageName: 'ubuntu-18.04'
+        #   rid: 'linux-x64'
         mac:
           imageName: 'macos-10.14'
           rid: 'osx-x64'
-        win-x64:
-          rid: 'win-x64'
-          imageName: 'windows-2019'
-        win-x86:
-          rid: 'win-x86'
-          imageName: 'windows-2019'
+        # win-x64:
+        #   rid: 'win-x64'
+        #   imageName: 'windows-2019'
+        # win-x86:
+        #   rid: 'win-x86'
+        #   imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
@@ -80,18 +80,18 @@ jobs:
     dependsOn: 'BuildLib'
     strategy:
       matrix:
-        linux-x64:
-          imageName: 'ubuntu-18.04'
-          rid: 'linux-x64'
+        # linux-x64:
+        #   imageName: 'ubuntu-18.04'
+        #   rid: 'linux-x64'
         mac:
           imageName: 'macos-10.14'
           rid: 'osx-x64'
-        win-x64:
-          rid: 'win-x64'
-          imageName: 'windows-2019'
-        win-x86:
-          rid: 'win-x86'
-          imageName: 'windows-2019'
+        # win-x64:
+        #   rid: 'win-x64'
+        #   imageName: 'windows-2019'
+        # win-x86:
+        #   rid: 'win-x86'
+        #   imageName: 'windows-2019'
 
     pool:
       vmImage: $(imageName)
@@ -117,7 +117,8 @@ jobs:
         displayName: 'Setup dependencies'
         condition: eq(variables.rid, 'osx-x64')
         inputs:
-          script: 'brew install mono-libgdiplus'
+          script: 'brew update
+          brew install mono-libgdiplus'
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
