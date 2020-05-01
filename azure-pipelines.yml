@@ -14,7 +14,7 @@ jobs:
         #   imageName: 'ubuntu-18.04'
         #   rid: 'linux-x64'
         mac:
-          imageName: 'macos-10.14'
+          imageName: 'macos-10.15'
           rid: 'osx-x64'
         # win-x64:
         #   rid: 'win-x64'
@@ -44,7 +44,7 @@ jobs:
         displayName: 'CMake configure x64 for macOS'
         inputs:
           workingDirectory: 'src'
-          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14 .'
+          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 .'
       - task: VSBuild@1
         displayName: 'Build Windows native x86 asset'
         condition: eq(variables.rid, 'win-x86')
@@ -89,7 +89,7 @@ jobs:
         #   imageName: 'ubuntu-18.04'
         #   rid: 'linux-x64'
         mac:
-          imageName: 'macos-10.14'
+          imageName: 'macos-10.15'
           rid: 'osx-x64'
         # win-x64:
         #   rid: 'win-x64'
