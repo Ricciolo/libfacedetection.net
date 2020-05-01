@@ -44,37 +44,50 @@ namespace LibFaceDetection
         {
             float? scaleX = null, scaleY = null;
 
+            bool disposeBitmap = false;
+
             // Resize image if needed
-            if (bitmap.Width > maxSize.Width || bitmap.Height > maxSize.Height)
+            try
             {
-                int width, height;
-                if (bitmap.Height > bitmap.Width)
+                if (bitmap.Width > maxSize.Width || bitmap.Height > maxSize.Height)
                 {
-                    // Use height as max
-                    height = maxSize.Height;
-                    width = height * bitmap.Width / bitmap.Height;
-                }
-                else
-                {
-                    // Use width as max
-                    width = maxSize.Width;
-                    height = width * bitmap.Height / bitmap.Width;
+                    int width, height;
+                    if (bitmap.Height > bitmap.Width)
+                    {
+                        // Use height as max
+                        height = maxSize.Height;
+                        width = height * bitmap.Width / bitmap.Height;
+                    }
+                    else
+                    {
+                        // Use width as max
+                        width = maxSize.Width;
+                        height = width * bitmap.Height / bitmap.Width;
+                    }
+
+                    scaleX = bitmap.Width / (float) width;
+                    scaleY = bitmap.Height / (float) height;
+                    bitmap = new Bitmap(bitmap, width, height);
+                    disposeBitmap = true;
                 }
 
-                scaleX = bitmap.Width / (float)width;
-                scaleY = bitmap.Height / (float)height;
-                bitmap = new Bitmap(bitmap, width, height);
+                IReadOnlyList<CnnFaceDetected> result = Detect(bitmap);
+
+                // Apply scale, if needed
+                if (scaleX.HasValue)
+                {
+                    result = result.Select(r => r.Scale(scaleX.Value, scaleY.Value)).ToArray();
+                }
+
+                return result;
             }
-
-            IReadOnlyList<CnnFaceDetected> result = Detect(bitmap);
-
-            // Apply scale, if needed
-            if (scaleX.HasValue)
+            finally
             {
-                result = result.Select(r => r.Scale(scaleX.Value, scaleY.Value)).ToArray();
+                if (disposeBitmap)
+                {
+                    bitmap.Dispose();
+                }
             }
-
-            return result;
         }
 
         /// <summary>
