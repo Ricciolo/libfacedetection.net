@@ -32,7 +32,7 @@ The *CnnFaceDetected* object contains also a **Confidence** property. You can us
 Please note that **original bitmap is converted internally in BGR format**, thus after *Detect* call, your original bitmap will be compromised. Do not use it for further operations.
 
 ## Performances
-For a better performance keep an instance of **CnnFaceDetector** for multiple usage, but please notice that the class is not thread safety. **Do not use it concurrently** from multiple threads. You can [ObjectPool<T>](https://docs.microsoft.com/dotnet/api/microsoft.extensions.objectpool.objectpool-1) available into *Microsoft.Extensions.ObjectPool* package to create a pool of available *CnnFaceDetector* instances. Please checkout a [sample here](tree/master/samples/AzureFunction)
+For a better performance keep an instance of **CnnFaceDetector** for multiple usage, but please note that the class is not thread safety. **Do not use it concurrently** from multiple threads. You can use [ObjectPool<T>](https://docs.microsoft.com/dotnet/api/microsoft.extensions.objectpool.objectpool-1) available into *Microsoft.Extensions.ObjectPool* package to create a pool of available *CnnFaceDetector* instances. Please checkout a [sample here](tree/master/samples/AzureFunction)
 
 You can also **speedup** the detection using a smaller image. You can downscale on your own, before passing it to the *Detect* method, or you can use an overload which accepts the maximum allowed image size.
 ```csharp
