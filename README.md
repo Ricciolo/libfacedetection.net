@@ -42,7 +42,7 @@ The library resizes the bitmap mantaining aspect ratio. The result contains face
 
 ## Other image library integration
 You are not bound to use *Sytem.Drawing*. If you want to use other libraries, like MagicScaler, ImageSharp, FreeImage, the **Detect** method has an overloads which accepts a pointer to the raw bitmap. You have also to pass image size and stride.
-Raw bitmap must be in **BGR** (better) or **RGB** format (a boolean allows to covert automatically), with a 8bit color depth.
+Raw bitmap must be in **BGR** (better) or **RGB** format (a boolean allows to convert automatically), with a 8bit color depth.
 
 ## Credits
 Thanks [nostromo117](https://github.com/nostromo117) for the logo
