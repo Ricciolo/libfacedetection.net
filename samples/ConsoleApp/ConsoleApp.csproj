@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="libfacedetection.net" Version="0.3.0" />
+    <PackageReference Include="libfacedetection.net" Version="0.4.0" />
   </ItemGroup>
 
 </Project>
