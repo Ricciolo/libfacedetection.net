@@ -2,7 +2,7 @@
 trigger: none
 
 variables:
-  versionprefix: 0.2.0
+  versionprefix: 0.4.0
   buildConfiguration: 'Release'
   libname: 'libfacedetection'
 
@@ -14,7 +14,7 @@ jobs:
           imageName: 'ubuntu-18.04'
           rid: 'linux-x64'
         # mac:
-        #   imageName: 'macos-10.14'
+        #   imageName: 'macos-10.15'
         #   rid: 'osx-x64'
         win-x64:
           rid: 'win-x64'
@@ -34,11 +34,17 @@ jobs:
           workingDirectory: 'src'
           cmakeArgs: '-A Win32 -DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
       - task: CMake@1
-        condition: ne(variables.rid, 'win-x86')
+        condition: and(ne(variables.rid, 'win-x86'), ne(variables.rid, 'osx-x64'))
         displayName: 'CMake configure x64'
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" .'
+      - task: CMake@1
+        condition: eq(variables.rid, 'osx-x64')
+        displayName: 'CMake configure x64 for macOS'
+        inputs:
+          workingDirectory: 'src'
+          cmakeArgs: '-DCMAKE_BUILD_TYPE="RelWithDebInfo" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 .'
       - task: VSBuild@1
         displayName: 'Build Windows native x86 asset'
         condition: eq(variables.rid, 'win-x86')
@@ -52,11 +58,10 @@ jobs:
         inputs:
           solution: 'src/libfacedetection.sln'
           platform: 'x64'
-          configuration: '$(buildConfiguration)'
-      
+          configuration: '$(buildConfiguration)'      
       - task: CMake@1
         displayName: 'Build Linux native x64 asset'
-        condition: eq(variables.rid, 'linux-x64')        
+        condition: or(eq(variables.rid, 'linux-x64'), eq(variables.rid, 'osx-x64'))
         inputs:
           workingDirectory: 'src'
           cmakeArgs: '--build .'
@@ -66,6 +71,7 @@ jobs:
           Contents: |
             **\$(libname).dll
             **/$(libname).so
+            **/$(libname).dylib
           TargetFolder: 'artifacts/native'
           CleanTargetFolder: true
           FlattenFolders: true
@@ -83,7 +89,7 @@ jobs:
           imageName: 'ubuntu-18.04'
           rid: 'linux-x64'
         # mac:
-        #   imageName: 'macos-10.14'
+        #   imageName: 'macos-10.15'
         #   rid: 'osx-x64'
         win-x64:
           rid: 'win-x64'
@@ -112,6 +118,13 @@ jobs:
         inputs:
           packageType: 'sdk'
           version: '3.1.x'
+      - task: CmdLine@2
+        displayName: 'Setup dependencies'
+        condition: eq(variables.rid, 'osx-x64')
+        inputs:
+          script: |
+            brew update
+            brew install mono-libgdiplus
       - task: DotNetCoreCLI@2
         displayName: 'Build libfacedetection.net'
         inputs:
@@ -146,6 +159,12 @@ jobs:
         downloadType: 'specific'
         downloadPath: 'runtimes'
         artifactName: 'linux-x64'
+    # - task: DownloadBuildArtifacts@0
+    #   displayName: 'Download osx-x64 artifact'
+    #   inputs:
+    #     downloadType: 'specific'
+    #     downloadPath: 'runtimes'
+    #     artifactName: 'osx-x64'
     - task: CopyFiles@2
       displayName: 'Copy native binary to src/native'
       inputs:

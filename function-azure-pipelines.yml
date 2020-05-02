@@ -1,0 +1,26 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  displayName: Use .NET Core 3.1.x
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
+- task: DotNetCoreCLI@2
+  displayName: Publish Function
+  inputs:
+    command: 'publish'
+    publishWebProjects: false 
+    arguments: -o publish
+    projects: 'samples/AzureFunction/AzureFunction.csproj'
+- task: AzureFunctionApp@1
+  displayName: Deploy to Azure
+  inputs:
+    azureSubscription: 'Ricciolo - Windows Azure MSDN - Visual Studio Ultimate(3cc10a93-788e-4cbc-96a2-7b6f1bbfdca3)'
+    appType: 'functionApp'
+    appName: 'libfacedetectionnet'
+    package: 'publish/AzureFunction.zip'
+    deploymentMethod: 'runFromPackage'

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace LibFaceDetection
@@ -13,6 +14,28 @@ namespace LibFaceDetection
         {
             Rectangle = new Rectangle(faceDetected.x, faceDetected.y, faceDetected.width, faceDetected.height);
             Confidence = faceDetected.confidence;
+        }
+
+        private CnnFaceDetected(float confidence, Rectangle rectangle)
+        {
+            Confidence = confidence;
+            Rectangle = rectangle;
+        }
+
+        /// <summary>
+        /// Returns a scaled version of the detected face
+        /// </summary>
+        /// <param name="scaleX">Scale to multiply for x and width</param>
+        /// <param name="scaleY">Scale to multiply for x and height</param>
+        /// <returns></returns>
+        public CnnFaceDetected Scale(float scaleX, float scaleY)
+        {
+            var rectangle = new Rectangle(
+                Convert.ToInt32(Rectangle.X * scaleX),
+                Convert.ToInt32(Rectangle.Y * scaleY),
+                Convert.ToInt32(Rectangle.Width * scaleX),
+                Convert.ToInt32(Rectangle.Height * scaleY));
+            return new CnnFaceDetected(Confidence, rectangle);
         }
 
         /// <summary>
