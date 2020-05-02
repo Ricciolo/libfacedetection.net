@@ -42,6 +42,8 @@ namespace LibFaceDetection
         /// <returns></returns>
         public IReadOnlyList<CnnFaceDetected> Detect(Bitmap bitmap, Size maxSize)
         {
+            if (bitmap == null) throw new ArgumentNullException(nameof(bitmap));
+
             // Resize image if needed
             if (bitmap.Width > maxSize.Width || bitmap.Height > maxSize.Height)
             {
@@ -73,6 +75,8 @@ namespace LibFaceDetection
         /// <returns></returns>
         public IReadOnlyList<CnnFaceDetected> Detect(Bitmap bitmap)
         {
+            if (bitmap == null) throw new ArgumentNullException(nameof(bitmap));
+
             BitmapData bitmapData = null;
             try
             {
