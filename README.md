@@ -1,4 +1,4 @@
-# ![Logo](docs/assets/logo-small.png) libfacetection.net
+# ![Logo](docs/assets/logo-small.png) libfacedetection.net
 [![NuGet version (Newtonsoft.Json)](https://img.shields.io/nuget/v/libfacedetection.net.svg)](https://www.nuget.org/packages/libfacedetection.net/)
 [![Build Status](https://dev.azure.com/ricciolo/libfacedetection.net/_apis/build/status/Ricciolo.libfacedetection.net?branchName=master)](https://dev.azure.com/ricciolo/libfacedetection.net/_build/latest?definitionId=30&branchName=master)
 
